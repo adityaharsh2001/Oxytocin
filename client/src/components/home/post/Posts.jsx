@@ -1,32 +1,47 @@
+import { useEffect, useState } from "react";
 
-import { Grid } from '@material-ui/core';
-import { Link } from 'react-router-dom';
-import '../home.css'
+import { Grid, Box } from "@mui/material";
+import { Link, useSearchParams } from "react-router-dom";
+
+// import { getAllPosts } from '../../../service/api';
+import { API } from "../../../service/api";
 
 //components
-import Post from './Post';
+import Post from "./Post";
 
 const Posts = () => {
-    const count = [1,2,3,4,5,6,7,8,9];
-    return (
-        <>
-            {
-                count.map(post => (
-                    <Grid item lg={3} sm={4} xs={12}>
-                        <Link style={{textDecoration: 'none', color: 'inherit'}} to='details'>
-                        <div class="wrapper">
-  <div class="card">
-	<h3 class="card-title">CARD TITLE</h3>
-		<p class="card-content">Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.</p>
-		<button class="card-btn">READ MORE</button>
-	</div>
-</div>
-                        </Link>
-                    </Grid>
-                ))
-            }
-        </>
-    )
-}
+  const [posts, getPosts] = useState([]);
+
+  const [searchParams] = useSearchParams();
+  const category = searchParams.get("category");
+
+  useEffect(() => {
+    const fetchData = async () => {
+      let response = await API.getAllPosts({ category: category || "" });
+      if (response.isSuccess) {
+        getPosts(response.data);
+      }
+    };
+    fetchData();
+  }, [category]);
+
+  return (
+    <>
+      {posts?.length ? (
+        posts.map((post) => (
+          <Grid item lg={3} sm={4} xs={12}>
+            <div class="wrapper">
+                <Post post={post} />
+            </div>
+          </Grid>
+        ))
+      ) : (
+        <Box style={{ color: "878787", margin: "30px 80px", fontSize: 18 }}>
+          No data is available for selected category
+        </Box>
+      )}
+    </>
+  );
+};
 
 export default Posts;

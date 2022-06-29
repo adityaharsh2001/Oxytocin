@@ -1,34 +1,37 @@
 
-import { AppBar, Toolbar, Typography, makeStyles } from '@material-ui/core'; 
+import { AppBar, Toolbar, styled, Button } from '@mui/material'; 
 import { Link } from 'react-router-dom';
 
+import { useNavigate } from 'react-router-dom';
 
-const useStyle = makeStyles({
-    component: {
-        background: '#FFFFFF',
-        color: 'black'
-    },
-    container: {
-        justifyContent: 'center',
-        '&  >*': {
-            padding: 20,
-            color: 'black',
-            textDecoration: 'none'
-        }
+
+const Component = styled(AppBar)`
+    background: #FFFFFF;
+    color: black;
+`;
+
+const Container = styled(Toolbar)`
+    justify-content: center;
+    & > a {
+        padding: 20px;
+        color: #000;
+        text-decoration: none;
     }
-})
+`
 
 const Header = () => {
-    const classes = useStyle();
+
+    const navigate = useNavigate();
+
+    const logout = async () => navigate('/account');
+        
     return (
-        <AppBar className={classes.component}>
-            <Toolbar className={classes.container}>
+        <Component>
+            <Container>
                 <Link to='/'>HOME</Link>
-                <Link>ABOUT</Link>
-                <Link>CONTACT</Link>
-                <Link>LOGIN</Link>
-            </Toolbar>
-        </AppBar>
+                <Link to='/account'>LOGOUT</Link>
+            </Container>
+        </Component>
     )
 }
 

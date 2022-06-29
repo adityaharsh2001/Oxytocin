@@ -1,33 +1,22 @@
 
-import {Grid, makeStyles } from '@material-ui/core';
+import { Grid } from '@mui/material';
 
 //components
+import Banner from '../banner/Banner';
 import Categories from './Categories';
-import Notes from './post/Posts';
-
-const useStyle = makeStyles({
-    component: {
-        // marginTop: 50
-    },
-    leftContainer: {
-        // width: '20%'
-    },
-    rightContainer: {
-
-    }
-})
+import Posts from './post/Posts';
 
 const Home = () => {
-    const classes = useStyle();
+
     return (
         <>
-
-            <Grid container className={classes.component}>
+            <Banner />
+            <Grid container>
                 <Grid item lg={2} xs={12} sm={2}>
                     <Categories />
                 </Grid>
                 <Grid container item xs={12} sm={10} lg={10}>
-                    <Notes />
+                    <Posts />
                 </Grid>
             </Grid>
         </>
